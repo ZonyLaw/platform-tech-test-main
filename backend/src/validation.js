@@ -1,5 +1,5 @@
 const validateUpload = (req, res, next) => {
-  const { name, message } = req.body;
+  const { name, message } = req.body || {};
 
   const errors = [];
 

@@ -38,6 +38,7 @@ app.post(
     res.json(
       {
         body: req.body,
+        file: req.file,
       },
     );
   },
@@ -45,3 +46,6 @@ app.post(
 
 // eslint-disable-next-line no-console
 app.listen(BACKEND_PORT, () => console.log(`Server running on port ${BACKEND_PORT}`));
+
+
+export default app;
