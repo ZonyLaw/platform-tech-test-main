@@ -1,4 +1,4 @@
-export const validateUpload = (req, res, next) => {
+const validateUpload = (req, res, next) => {
   const { name, message } = req.body;
 
   const errors = [];
@@ -21,5 +21,7 @@ export const validateUpload = (req, res, next) => {
     });
   }
 
-  next();
+  return next();
 };
+
+export default validateUpload;

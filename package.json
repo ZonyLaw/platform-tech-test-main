@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start-backend": "nodemon backend/src/index.js",
-    "start-frontend": "vite frontend"
+    "start-frontend": "vite frontend",
+    "lint": "eslint ."
   },
   "dependencies": {
     "cors": "^2.8.6",
@@ -17,6 +18,12 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "nodemon": "^3.1.14",
     "vite": "^6.0.0"
   }
