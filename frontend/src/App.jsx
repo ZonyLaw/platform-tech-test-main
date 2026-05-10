@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "../style/style.css";
 
 
 const App = () => {
   const [formData, setFormData] = useState({ name: '', message: '', file: null });
   const [response, setResponse] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,6 +16,11 @@ const App = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+   
     const submitData = new FormData()
     submitData.append('name', formData.name);
     submitData.append('message', formData.message);
@@ -25,12 +32,18 @@ const App = () => {
         body: submitData,
       });
       
-      console.log("complted upload")
-     for (const [key, value] of submitData.entries()) {
-  console.log(key, value);
-}
+  //     console.log("complted upload")
+  //    for (const [key, value] of submitData.entries()) {
+  // console.log(key, value);
+// }
       const data = await res.json();
       setResponse(data);
+
+
+      setFormData({ name: '', message: '', file: null });
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
 
 
     } catch (err) {
@@ -38,6 +51,26 @@ const App = () => {
     }
   };
 
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    }
+
+    if (!formData.file) {
+      newErrors.file = 'File is required';
+    }
+
+    setFormErrors(newErrors);
+    console.log(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   
   const handleFileChange = (e) => {
@@ -47,6 +80,10 @@ const App = () => {
 
     setFormData((prev)=>({...prev, file: newfile}));
 };
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
 
 
   useEffect(() => {
@@ -68,6 +105,9 @@ const App = () => {
               onChange={handleChange}
             />
           </label>
+          {formErrors.name && (
+              <p className="error">{formErrors.name}</p>
+            )}
         </div>
         <div>
           <label htmlFor="message" className="field-label">
@@ -80,21 +120,28 @@ const App = () => {
               onChange={handleChange}
             />
           </label>
+         {formErrors.message && (
+              <p className="error">{formErrors.message}</p>
+            )}
+
         </div>
 
         <div>
           <label htmlFor="file" className="field-label">
             File Upload:
             <input
+              ref={fileInputRef}
               type="file"
               id="file"
               name="file"
               onChange={handleFileChange}
             />
           </label>
+         {formErrors.file && (
+              <p className="error">{formErrors.file}</p>
+            )}
+            
         </div>
-
-
 
         <button type="submit">Submit</button>
       </form>

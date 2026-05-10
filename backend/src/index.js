@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import multer from "multer";
 import cors from "cors";
+import { validateUpload } from './validation.js';
 
 
 config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), '../../.env') });
@@ -30,15 +31,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post('/api/submit', upload.single("file"), (req, res) => {
-  res.json(
-
-    {
-    
-    body: req.body,
-
-  }
-  );
+app.post('/api/submit', 
+  upload.single("file"), 
+  validateUpload,
+  (req, res) => {
+      res.json(
+        {
+        body: req.body,
+        }
+      );
 });
 
 // eslint-disable-next-line no-console
