@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import "../style/style.css";
+
 
 const App = () => {
   const [formData, setFormData] = useState({ name: '', message: '' });
@@ -26,12 +28,17 @@ const App = () => {
     }
   };
 
+
+  useEffect(() => {
+    document.body.className="background";
+  }, []);
+
   return (
-    <div>
-      <h1>Form Submission</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">
+    <div className="app box-size">
+      <h1 className="text-centre">Form Submission</h1>
+      <form onSubmit={handleSubmit} className="form-format">
+        <div >
+          <label htmlFor="name" className="field-label">
             Name:
             <input
               type="text"
@@ -43,7 +50,7 @@ const App = () => {
           </label>
         </div>
         <div>
-          <label htmlFor="message">
+          <label htmlFor="message" className="field-label">
             Message:
             <input
               type="text"
@@ -60,7 +67,7 @@ const App = () => {
       {response && (
         <div>
           <h2>Response:</h2>
-          <pre>{JSON.stringify(response, null, 2)}</pre>
+          <pre className="code-block">{JSON.stringify(response, null, 2)}</pre>
         </div>
       )}
     </div>
