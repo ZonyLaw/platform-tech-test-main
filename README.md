@@ -17,6 +17,13 @@ Make the following changes:
 
 1. Add styling to the form
 2. Add selecting a file to the form, this should be stored in a directory in the back-end and the path to the file returned to the front-end on submission. Selecting the file should support drag and drop
+
+    Installed:
+
+    cors — handles Cross-Origin Resource Sharing (CORS), allowing the frontend to communicate with the backend across different URLs/domains.
+    multer — handles file uploads and saving files on the server.
+
+
 3. Add validation to the form
 4. Add linting to the application, following AirBnb's linting rules
 5. Add front-end and back-end tests to the application

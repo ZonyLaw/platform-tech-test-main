@@ -3,7 +3,7 @@ import "../style/style.css";
 
 
 const App = () => {
-  const [formData, setFormData] = useState({ name: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', message: '', file: null });
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
 
@@ -14,19 +14,39 @@ const App = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const submitData = new FormData()
+    submitData.append('name', formData.name);
+    submitData.append('message', formData.message);
+    submitData.append('file', formData.file);
     setError(null);
     try {
-      const res = await fetch('/api/submit', {
+      const res = await fetch("http://localhost:5003/api/submit", {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: submitData,
       });
+      
+      console.log("complted upload")
+     for (const [key, value] of submitData.entries()) {
+  console.log(key, value);
+}
       const data = await res.json();
       setResponse(data);
+
+
     } catch (err) {
       setError(err.message);
     }
   };
+
+
+  
+  const handleFileChange = (e) => {
+    const newfile = e.target.files[0];
+
+    console.log("Selected file>>>:", newfile);
+
+    setFormData((prev)=>({...prev, file: newfile}));
+};
 
 
   useEffect(() => {
@@ -61,6 +81,21 @@ const App = () => {
             />
           </label>
         </div>
+
+        <div>
+          <label htmlFor="file" className="field-label">
+            File Upload:
+            <input
+              type="file"
+              id="file"
+              name="file"
+              onChange={handleFileChange}
+            />
+          </label>
+        </div>
+
+
+
         <button type="submit">Submit</button>
       </form>
       {error && <p>{error}</p>}
