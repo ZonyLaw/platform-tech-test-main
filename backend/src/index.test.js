@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from './index';
+import app from './app.js';
 
 describe('POST /api/submit', () => {
   it('returns 400 when fields are missing', async () => {
