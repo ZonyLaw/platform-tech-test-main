@@ -8,6 +8,7 @@ const App = () => {
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,13 +33,16 @@ const App = () => {
         body: submitData,
       });
       
-  //     console.log("complted upload")
-  //    for (const [key, value] of submitData.entries()) {
-  // console.log(key, value);
-// }
       const data = await res.json();
-      setResponse(data);
 
+      if (res.ok) {
+        setSuccessMessage('File uploaded successfully');
+
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 4000);
+      }
+      setResponse(data);
 
       setFormData({ name: '', message: '', file: null });
       if (fileInputRef.current) {
@@ -94,6 +98,7 @@ const App = () => {
     <div className="app box-size">
       <h1 className="text-centre">Form Submission</h1>
       <form onSubmit={handleSubmit} className="form-format">
+        {successMessage && (<p>{successMessage}</p>)}
         <div >
           <label htmlFor="name" className="field-label">
             Name:
